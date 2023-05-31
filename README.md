@@ -1,4 +1,4 @@
-# ACeR
+# ACeR - Automatic Code Reviewer
 
 <p align="center">
   <img src="public/icons/icon_128.png" alt="localysoter" />
