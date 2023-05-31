@@ -50,6 +50,17 @@ async function getApiKey() {
   return options['openai_apikey'];
 }
 
+async function getFinalPrompt() {
+  let options = await new Promise((resolve) => {
+    chrome.storage.sync.get('final_prompt', resolve);
+  });
+  console.log(options);
+  if (!options || !options['final_prompt']) {
+    throw new Error("Final prompt not provided");
+  }
+  return options['final_prompt'];
+}
+
 async function callChatGPT(messages, callback, onDone) {
   let apiKey;
   try {
@@ -107,6 +118,7 @@ async function reviewPR(diffPath, context, title) {
   document.getElementById('result').innerHTML = ''
   chrome.storage.session.remove([diffPath])
 
+  const finalPrompt = await getFinalPrompt();
 
   let promptArray = [];
   // Fetch the patch from our provider.
@@ -188,10 +200,7 @@ async function reviewPR(diffPath, context, title) {
     promptArray.push(part);
   });
 
-  promptArray.push("All code changes have been provided. Please provide me with your code review based on all the changes, context & title provided." +
-    "If no feedback is provided omit file listing. Omit review summary. Follow my instructions precisely." +
-    "Answer in a markdown format only for files you know something can be done better. File: Filename and proposition for change in next line."
-    )
+  promptArray.push(finalPrompt);
 
   // Send our prompts to ChatGPT.
   callChatGPT(
