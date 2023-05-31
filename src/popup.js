@@ -189,8 +189,9 @@ async function reviewPR(diffPath, context, title) {
   });
 
   promptArray.push("All code changes have been provided. Please provide me with your code review based on all the changes, context & title provided." +
-    "Answer in a markdown format only for files you know something can be done better. File: Filename and proposition for change in next line. " +
-    "If no feedback is provided omit file listing. Omit review summary.")
+    "If no feedback is provided omit file listing. Omit review summary. Follow my instructions precisely." +
+    "Answer in a markdown format only for files you know something can be done better. File: Filename and proposition for change in next line."
+    )
 
   // Send our prompts to ChatGPT.
   callChatGPT(
