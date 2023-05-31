@@ -1,7 +1,7 @@
 // Saves options to chrome.storage
-const defaultFinalPrompt = "All code changes have been provided. Please provide me with your code review based on all the changes, context & title provided." +
-  "If no feedback is provided omit file listing. Omit review summary. Follow my instructions precisely." +
-  "Answer in a markdown format only for files you know something can be done better. File: Filename and proposition for change in next line.";
+const defaultFinalPrompt = `All code changes have been provided. Please provide me with your code review based on all the changes, context & title provided. Answer in a markdown format. ONLY list files you know something can be done better.Format:
+Filename:
+Proposition of better code or hints.`;
 
 const saveOptions = () => {
     const openai_apikey = document.getElementById('openai_apikey').value;
