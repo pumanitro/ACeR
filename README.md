@@ -1,7 +1,7 @@
-# codereview.gpt
+# ACeR
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/sturdy-dev/codereview.gpt/main/public/icons/icon_128.png">
+  <img src="public/icons/icon_128.png" alt="localysoter" />
 </p>
 <p align='center'>
     Review GitHub Pull Requests or GitLab Merge Requests using <a href="https://chat.openai.com" target="_blank">ChatGPT</a>.
@@ -35,7 +35,7 @@ https://user-images.githubusercontent.com/4030927/207372123-46d7ee8c-bd3e-4272-8
 
 ## Usage
 
-- Navigate to a GitHub Pull Request or GitLab Merge Request that you want a review for.
+- Navigate to a GitHub Pull Request or GitLab Merge Request that you want a review for. (do not open files changes be where the description of PR is to provide additional context for chatgpt)
 - Fill in your [OpenAI API token](https://platform.openai.com/account/api-keys) in the Settings of the Chrome Extension
 - Click the extension icon
 - You get code review comments from ChatGPT in the popup window
@@ -111,7 +111,7 @@ This is a list of permissions the extension uses with the respective reason.
 
 ## Credits
 
-This project is inspired by [clmnin/summarize.site](https://github.com/clmnin/summarize.site)
+This project is inspired by [codereview.gpt](https://github.com/sturdy-dev/codereview.gpt)
 
 ## License
 

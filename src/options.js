@@ -1,7 +1,7 @@
 // Saves options to chrome.storage
 const saveOptions = () => {
     const openai_apikey = document.getElementById('openai_apikey').value;
-  
+
     chrome.storage.sync.set(
       { openai_apikey: openai_apikey },
       () => {
@@ -14,7 +14,7 @@ const saveOptions = () => {
       }
     );
   };
-  
+
   // Restores select box and checkbox state using the preferences
   // stored in chrome.storage.
   const restoreOptions = () => {
@@ -25,6 +25,6 @@ const saveOptions = () => {
       }
     );
   };
-  
+
   document.addEventListener('DOMContentLoaded', restoreOptions);
   document.getElementById('save').addEventListener('click', saveOptions);

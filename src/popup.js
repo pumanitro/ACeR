@@ -190,7 +190,8 @@ async function reviewPR(diffPath, context, title) {
     promptArray.push(part);
   });
 
-  promptArray.push("All code changes have been provided. Please provide me with your code review based on all the changes, context & title provided");
+  promptArray.push("All code changes have been provided. Please provide me with your code review based on all the changes, context & title provided." +
+    "Answer in a markdown format only for files you know something can be done better. File: Filename and proposition for change in next line.")
 
   // Send our prompts to ChatGPT.
   callChatGPT(
@@ -220,9 +221,9 @@ async function run() {
   let title = tab.title
 
   // Simple verification if it would be a self-hosted GitLab instance.
-  // We verify if there is a meta tag present with the content "GitLab". 
+  // We verify if there is a meta tag present with the content "GitLab".
   let isGitLabResult = (await chrome.scripting.executeScript({
-    target:{tabId: tab.id, allFrames: true}, 
+    target:{tabId: tab.id, allFrames: true},
     func: () => { return document.querySelectorAll('meta[content="GitLab"]').length }
   }))[0];
 
@@ -235,14 +236,15 @@ async function run() {
 
   if (provider === 'GitHub' && tokens[5] === 'pull') {
     // The path towards the patch file of this change
+    // This URL will generate a .patch file for pull request #303. A patch file is a text file that shows differences between two sets of code. It's a standardized format that can be applied to a codebase using a version control system like git. It's typically used to share changes with others who can apply the patch to their own version of the codebase. It's a more "raw" and machine-friendly format.
     diffPath = `https://patch-diff.githubusercontent.com/raw/${tokens[3]}/${tokens[4]}/pull/${tokens[6]}.patch`;
     // The description of the author of the change
     // Fetch it by running a querySelector script specific to GitHub on the active tab
     const contextExternalResult = (await chrome.scripting.executeScript({
-      target:{tabId: tab.id, allFrames: true}, 
+      target:{tabId: tab.id, allFrames: true},
       func: () => { return document.querySelector('.markdown-body').textContent }
     }))[0];
-    
+
     if ("result" in contextExternalResult) {
       context = contextExternalResult.result;
     }
@@ -253,7 +255,7 @@ async function run() {
     // The description of the author of the change
     // Fetch it by running a querySelector script specific to GitLab on the active tab
     const contextExternalResult = (await chrome.scripting.executeScript({
-      target:{tabId: tab.id, allFrames: true}, 
+      target:{tabId: tab.id, allFrames: true},
       func: () => { return document.querySelector('.description textarea').getAttribute('data-value') }
     }))[0];
 
@@ -269,7 +271,7 @@ async function run() {
       error = 'Only GitHub or GitLab (SaaS & self-hosted) are supported.'
     }
   }
- 
+
   if (error != null) {
     document.getElementById('result').innerHTML = error
     inProgress(false, true, false);
@@ -284,6 +286,7 @@ async function run() {
     reviewPR(diffPath, context, title)
   }
 
+  // get data from storage if once retrieved and extension reopened
   chrome.storage.session.get([diffPath]).then((result) => {
     if (result[diffPath]) {
       document.getElementById('result').innerHTML = result[diffPath]
