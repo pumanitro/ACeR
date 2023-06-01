@@ -72,6 +72,7 @@ async function callChatGPT(messages, callback, onDone) {
   }
 
   const api = new ChatGPTAPI({
+    model: 'gpt-4',
     apiKey: apiKey,
     systemMessage: `You are a programming code change reviewer, provide feedback on the code changes given. Do not introduce yourselves.`
   })
